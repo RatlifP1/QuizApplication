@@ -1,0 +1,15 @@
+C:\Users\kirkv\source\repos\QuizApplication\bin\Debug\QuizApplication.exe.config
+C:\Users\kirkv\source\repos\QuizApplication\bin\Debug\QuizApplication.exe
+C:\Users\kirkv\source\repos\QuizApplication\bin\Debug\QuizApplication.pdb
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.csprojAssemblyReference.cache
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\MainWindow.g.cs
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\App.g.cs
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication_MarkupCompile.cache
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication_MarkupCompile.lref
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\MainWindow.baml
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.g.resources
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.Properties.Resources.resources
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.csproj.GenerateResource.cache
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.csproj.CoreCompileInputs.cache
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.exe
+C:\Users\kirkv\source\repos\QuizApplication\obj\Debug\QuizApplication.pdb

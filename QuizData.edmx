@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QuizDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BadAns">
+          <Key>
+            <PropertyRef Name="SecBadAnsId" />
+          </Key>
+          <Property Name="SecBadAnsId" Type="int" Nullable="false" />
+          <Property Name="BadAnswers" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="CorrNwrong">
+          <Key>
+            <PropertyRef Name="ScoreId" />
+          </Key>
+          <Property Name="ScoreId" Type="int" Nullable="false" />
+          <Property Name="CorrectAnswer" Type="nvarchar(max)" />
+          <Property Name="WrongAnswer" Type="nvarchar(max)" />
+          <Property Name="SecAnswerID" Type="int" />
+          <Property Name="SecBadAnsID" Type="int" />
+        </EntityType>
+        <EntityType Name="SecAnswers">
+          <Key>
+            <PropertyRef Name="SecAnswersID" />
+          </Key>
+          <Property Name="SecAnswersID" Type="int" Nullable="false" />
+          <Property Name="Answers" Type="nchar" MaxLength="10" />
+          <Property Name="AnswerReasons" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SecPlus">
+          <Key>
+            <PropertyRef Name="SecPlueID" />
+          </Key>
+          <Property Name="SecPlueID" Type="int" Nullable="false" />
+          <Property Name="SecPlusQuestions" Type="nvarchar(max)" />
+          <Property Name="SecAnswersID" Type="int" />
+        </EntityType>
+        <EntityContainer Name="QuizDatabaseModelStoreContainer">
+          <EntitySet Name="BadAns" EntityType="Self.BadAns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CorrNwrong" EntityType="Self.CorrNwrong" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SecAnswers" EntityType="Self.SecAnswers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SecPlus" EntityType="Self.SecPlus" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QuizDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BadAns" BaseType="QuizDatabaseModel.CorrNwrong">
+          <Property Name="SecBadAnsId" Type="Int32" Nullable="false" />
+          <Property Name="BadAnswers" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SecAnswer" BaseType="QuizDatabaseModel.CorrNwrong">
+          <Property Name="SecAnswersID" Type="Int32" Nullable="false" />
+          <Property Name="Answers" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AnswerReasons" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SecPlus1" Relationship="QuizDatabaseModel.SecAnswerSecPlu" FromRole="SecAnswer" ToRole="SecPlu" />
+        </EntityType>
+        <EntityType Name="SecPlu">
+          <Key>
+            <PropertyRef Name="SecPlueID" />
+          </Key>
+          <Property Name="SecPlueID" Type="Int32" Nullable="false" />
+          <Property Name="SecPlusQuestions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecAnswersID" Type="String" Nullable="false" />
+          <NavigationProperty Name="SecAnswer1" Relationship="QuizDatabaseModel.SecAnswerSecPlu" FromRole="SecPlu" ToRole="SecAnswer" />
+          <Property Name="SecAnswersID1" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="QuizDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SecPlus" EntityType="Self.SecPlu" />
+          <AssociationSet Name="SecAnswerSecPlu" Association="QuizDatabaseModel.SecAnswerSecPlu">
+            <End Role="SecAnswer" EntitySet="CorrNwrongs" />
+            <End Role="SecPlu" EntitySet="SecPlus" />
+          </AssociationSet>
+          <EntitySet Name="CorrNwrongs" EntityType="QuizDatabaseModel.CorrNwrong" />
+        </EntityContainer>
+        <Association Name="SecAnswerSecPlu">
+          <End Type="QuizDatabaseModel.SecAnswer" Role="SecAnswer" Multiplicity="1" />
+          <End Type="QuizDatabaseModel.SecPlu" Role="SecPlu" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="ComplexType1">
+          <Property Type="String" Name="Property1" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="CorrNwrong">
+          <Key>
+            <PropertyRef Name="ScoreId" />
+          </Key>
+          <Property Name="ScoreId" Nullable="false" Type="Int32" />
+          <Property Name="CorrectAnswer" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="WrongAnswer" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="SecAnswerID" Type="Int32" />
+          <Property Name="SecBadAnsID" Type="Int32" />
+          <NavigationProperty Name="SecAnswers" />
+          <NavigationProperty Name="BadAns" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QuizDatabaseModelStoreContainer" CdmEntityContainer="QuizDatabaseEntities">
+          <EntitySetMapping Name="SecPlus">
+            <EntityTypeMapping TypeName="QuizDatabaseModel.SecPlu">
+              <MappingFragment StoreEntitySet="SecPlus">
+                <ScalarProperty Name="SecAnswersID1" ColumnName="SecAnswersID" />
+                <ScalarProperty Name="SecPlueID" ColumnName="SecPlueID" />
+                <ScalarProperty Name="SecPlusQuestions" ColumnName="SecPlusQuestions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CorrNwrongs">
+            <EntityTypeMapping TypeName="IsTypeOf(QuizDatabaseModel.CorrNwrong)">
+              <MappingFragment StoreEntitySet="CorrNwrong">
+                <ScalarProperty Name="ScoreId" ColumnName="ScoreId" />
+                <ScalarProperty Name="SecBadAnsID" ColumnName="SecBadAnsID" />
+                <ScalarProperty Name="SecAnswerID" ColumnName="SecAnswerID" />
+                <ScalarProperty Name="WrongAnswer" ColumnName="WrongAnswer" />
+                <ScalarProperty Name="CorrectAnswer" ColumnName="CorrectAnswer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(QuizDatabaseModel.SecAnswer)">
+              <MappingFragment StoreEntitySet="SecAnswers">
+                <ScalarProperty Name="AnswerReasons" ColumnName="AnswerReasons" />
+                <ScalarProperty Name="Answers" ColumnName="Answers" />
+                <ScalarProperty Name="SecAnswersID" ColumnName="SecAnswersID" />
+              </MappingFragment>
+              <MappingFragment StoreEntitySet="CorrNwrong">
+                <ScalarProperty Name="ScoreId" ColumnName="ScoreId" />
+                <Condition ColumnName="SecAnswerID" Value="" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(QuizDatabaseModel.BadAns)">
+              <MappingFragment StoreEntitySet="BadAns">
+                <ScalarProperty Name="BadAnswers" ColumnName="BadAnswers" />
+                <ScalarProperty Name="SecBadAnsId" ColumnName="SecBadAnsId" />
+              </MappingFragment>
+              <MappingFragment StoreEntitySet="CorrNwrong">
+                <ScalarProperty Name="ScoreId" ColumnName="ScoreId" />
+                <Condition ColumnName="SecBadAnsID" Value="" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="SecAnswerSecPlu" TypeName="QuizDatabaseModel.SecAnswerSecPlu" StoreEntitySet="SecPlus">
+            <EndProperty Name="SecPlu">
+              <ScalarProperty Name="SecPlueID" ColumnName="SecAnswersID" />
+            </EndProperty>
+            <EndProperty Name="SecAnswer">
+              <ScalarProperty Name="ScoreId" ColumnName="SecAnswersID" />
+              <ScalarProperty Name="SecAnswersID" ColumnName="SecAnswersID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
